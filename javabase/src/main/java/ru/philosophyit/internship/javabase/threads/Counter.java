@@ -1,5 +1,7 @@
 package ru.philosophyit.internship.javabase.threads;
 
+import ru.philosophyit.internship.javabase.locks.LiveLock;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -8,6 +10,7 @@ import java.util.stream.IntStream;
 public class Counter {
     static int counter = 0;
     public static final int N_THREADS = 4;
+    public static final LiveLock lock = new LiveLock("lock");
 
     /// Перепишите код так, чтобы операция увеличения счетчика была синхронизируемой
     public static void main(String[] args) {
@@ -26,11 +29,15 @@ public class Counter {
                 });
     }
 
-    static synchronized CompletableFuture<Void> runCounting(ExecutorService executorService) {
-        return CompletableFuture.runAsync(() -> {
-            for (int i = 0; i < 1000000; i++) {
-                Counter.counter = Counter.counter + 1;
-            }
-        }, executorService);
+    static CompletableFuture<Void> runCounting(ExecutorService executorService) {
+        
+            return CompletableFuture.runAsync(() -> {
+                for (int i = 0; i < 1000000; i++) {
+                    synchronized (Counter.lock) {
+                    Counter.counter = Counter.counter + 1;
+                    }
+                }
+            }, executorService);
+        
     }
 }
