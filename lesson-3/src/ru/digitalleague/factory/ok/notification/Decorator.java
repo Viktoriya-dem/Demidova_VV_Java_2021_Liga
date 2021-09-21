@@ -1,7 +1,10 @@
 package ru.digitalleague.factory.ok.notification;
 
 import ru.digitalleague.factory.ok.User;
+
+import java.text.Format;
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Decorator implements Notification {
@@ -16,25 +19,16 @@ public class Decorator implements Notification {
 
     @Override
     public String getText() {
+
         ResourceBundle message = ResourceBundle.getBundle("resources/message", user.getLanguage());
-        Object[] messageArguments = {
-                user.getName(),
-                user.getEmail(),
-                user.getPhone()
-        };
-        MessageFormat formatter = new MessageFormat(notification.getText());
-        switch (notification.getClass().getSimpleName()) {
-            case "MailNotification":
-                formatter.applyPattern(message.getString("mail"));
-                break;
-            case "PhoneNotification":
-                formatter.applyPattern(message.getString("phone"));
-                break;
-            case "PushNotification":
-                formatter.applyPattern(message.getString("push"));
-                break;
+        String [] form=notification.getText().split(" ");
+        String result="";
+        for (int i=0; i<form.length-1; i++){
+            result=result + message.getString(form[i]) + " ";
         }
-        return formatter.format(messageArguments);
+        result=result+form[form.length-1];
+        return result;
     }
+
 }
 
