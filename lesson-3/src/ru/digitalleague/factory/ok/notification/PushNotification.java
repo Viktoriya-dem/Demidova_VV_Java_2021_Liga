@@ -11,6 +11,6 @@ public class PushNotification implements Notification {
     }
 
     public String getText() {
-        return String.format(NotificationType.PUSH.getMessage(), user.getName());
+        return String.format(NotificationType.PUSH.getMessage(), user.getName(), user.getId());
     }
 }

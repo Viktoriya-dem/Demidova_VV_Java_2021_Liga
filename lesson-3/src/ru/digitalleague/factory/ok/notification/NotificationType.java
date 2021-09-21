@@ -4,7 +4,7 @@ public enum NotificationType {
 
     MAIL("Hi %s! Notification by mail %s!"),
     PHONE("Hi %s! Notification by phone %s!"),
-    PUSH("Hi %s! Push-notification!");
+    PUSH("Hi %s! Push-notification %d!");
 
     private String message;
 
