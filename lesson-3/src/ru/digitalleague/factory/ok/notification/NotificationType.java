@@ -2,9 +2,9 @@ package ru.digitalleague.factory.ok.notification;
 
 public enum NotificationType {
 
-    MAIL("Привет %s! Уведомление по почте %s!"),
-    PHONE("Привет %s! Уведомление по телефону %s!"),
-    PUSH("Привет %s! Push-уведомление!");
+    MAIL("Hi %s! Notification by mail %s!"),
+    PHONE("Hi %s! Notification by phone %s!"),
+    PUSH("Hi %s! Push-notification!");
 
     private String message;
 
