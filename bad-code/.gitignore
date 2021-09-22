@@ -1,0 +1,14 @@
+# IntelliJ
+.idea/
+out/
+# Gradle
+.gradle
+build/
+# Compiled class file
+*.class
+# Log file
+*.log
+# Package Files #
+*.jar
+*.war
+
