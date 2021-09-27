@@ -1,0 +1,27 @@
+.git/
+gradle.properties
+gradlew
+gradlew.bat
+settings.gradle
+
+# IntelliJ
+.idea/
+out/
+# Gradle
+.gradle
+build/
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files
+*.jar
+
+# generated files
+bin/
+gen/
+
+
