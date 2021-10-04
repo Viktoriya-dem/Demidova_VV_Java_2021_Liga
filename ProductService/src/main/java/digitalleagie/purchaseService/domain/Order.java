@@ -8,10 +8,6 @@ public class Order {
         return basket;
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
-    }
-
     public Integer getOrderNumber() {
         return orderNumber;
     }

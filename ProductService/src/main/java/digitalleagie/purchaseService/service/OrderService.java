@@ -4,21 +4,21 @@ import digitalleagie.purchaseService.domain.Order;
 import digitalleagie.purchaseService.domain.User;
 
 public class OrderService {
-    public static void makeOrder(User user) {
-        if (user.getBasket().getProductList().isEmpty()) System.out.println("Корзина пуста, добавьте товары");
+    public void makeOrder(User user) {
+        if (user.getBasket().getProductMap().size()==0) System.out.println("Корзина пуста, добавьте товары");
         else {
             user.setMakeOrder(true);
             user.setOrder(new Order(user.getBasket()));
         }
     }
 
-    public static void makeNewOrder(User user) {
+    public void makeNewOrder(User user) {
         user.setMakeOrder(false);
-        user.getBasket().clear();
+        BasketService.clearBasket(user);
         System.out.println("Сделайте следующий заказ!");
     }
 
-    public static void showOrder(User user) {
-        System.out.println(String.format("Заказ пользователя %s № %d, общая сумма %d", user.getName(), user.getOrder().getOrderNumber(), user.getOrder().getBasket().getTotalSum()));
+    public String showOrder(User user) {
+        return String.format("Заказ пользователя %s № %d, общая сумма %d", user.getName(), user.getOrder().getOrderNumber(), user.getOrder().getBasket().getTotalPrice());
     }
 }

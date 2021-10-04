@@ -2,9 +2,9 @@ package digitalleagie.purchaseService.domain;
 
 public class Product {
     private String productName;
-    private Integer price;
+    private Long price;
 
-    public Product(String productName, Integer price) {
+    public Product(String productName, Long price) {
         this.productName = productName;
         this.price = price;
     }
@@ -13,7 +13,7 @@ public class Product {
         return productName;
     }
 
-    public Integer getPrice() {
+    public Long getPrice() {
         return price;
     }
 }

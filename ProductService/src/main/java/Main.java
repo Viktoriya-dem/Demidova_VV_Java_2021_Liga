@@ -5,19 +5,21 @@ import digitalleagie.purchaseService.service.OrderService;
 public class Main {
     public static void main(String[] args) {
         User user = new User("Vika", "+79313012876");
-        AvailableProducts.showAvailableProducts();
-        OrderService.makeOrder(user);
-        BasketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
-        BasketService.addToBasket(user, AvailableProducts.PION.getProduct(), 2);
-        BasketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
-        BasketService.showBasket(user);
-        OrderService.makeOrder(user);
-        OrderService.showOrder(user);
-        OrderService.makeNewOrder(user);
-        BasketService.showBasket(user);
-        BasketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
-        BasketService.showBasket(user);
-        OrderService.makeOrder(user);
-        OrderService.showOrder(user);
+        BasketService basketService=new BasketService();
+        OrderService orderService=new OrderService();
+        System.out.println(AvailableProducts.showAvailableProducts());
+       orderService.makeOrder(user);
+        basketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
+        basketService.addToBasket(user, AvailableProducts.PION.getProduct(), 2);
+        basketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
+       basketService.showBasket(user);
+        orderService.makeOrder(user);
+        System.out.println(orderService.showOrder(user));
+        orderService.makeNewOrder(user);
+        basketService.showBasket(user);
+        basketService.addToBasket(user, AvailableProducts.ROSE.getProduct(), 3);
+        basketService.showBasket(user);
+        orderService.makeOrder(user);
+       System.out.println(orderService.showOrder(user));
     }
 }

@@ -1,11 +1,11 @@
 import digitalleagie.purchaseService.domain.Product;
 
 public enum AvailableProducts {
-    ROSE(new Product("Роза", 150)),
-    PION(new Product("Пион", 100)),
-    GERBERA(new Product("Гербера", 200)),
-    CHRYSANTHEMUM(new Product("Хризантема", 80)),
-    LILY(new Product("Лилия", 120));
+    ROSE(new Product("Роза", 150L)),
+    PION(new Product("Пион", 100L)),
+    GERBERA(new Product("Гербера", 200L)),
+    CHRYSANTHEMUM(new Product("Хризантема", 80L)),
+    LILY(new Product("Лилия", 120L));
 
     private Product product;
 
@@ -17,11 +17,12 @@ public enum AvailableProducts {
         return product;
     }
 
-    public static void showAvailableProducts() {
-        System.out.println("Доступные товары:");
+    public static String showAvailableProducts() {
+        String allProduct="";
         for (Enum<AvailableProducts> products : AvailableProducts.values()) {
-            System.out.println(products.toString());
+            allProduct=allProduct +"\n" + products.toString();
         }
+        return ("Доступные товары:" + allProduct);
     }
 
     @Override
