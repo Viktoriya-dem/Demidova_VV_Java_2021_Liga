@@ -34,6 +34,7 @@ CREATE TABLE subject(
 CREATE TABLE student_subject(
     student_id INT,
     subject_id INT,
+    UNIQUE(student_id, subject_id),
     FOREIGN KEY (student_id) REFERENCES student(id),
     FOREIGN KEY (subject_id) REFERENCES subject(id)
 );
@@ -41,6 +42,7 @@ CREATE TABLE student_subject(
 CREATE TABLE teacher_subject(
     teacher_id INT,
     subject_id INT,
+    UNIQUE(teacher_id, subject_id),
     FOREIGN KEY (teacher_id) REFERENCES teacher(id),
     FOREIGN KEY (subject_id) REFERENCES subject(id)
    );
