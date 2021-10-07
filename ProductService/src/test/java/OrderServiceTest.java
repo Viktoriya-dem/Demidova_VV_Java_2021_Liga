@@ -1,3 +1,4 @@
+import digitalleagie.purchaseService.domain.AvailableProducts;
 import digitalleagie.purchaseService.domain.User;
 import digitalleagie.purchaseService.service.BasketService;
 import digitalleagie.purchaseService.service.OrderService;

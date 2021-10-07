@@ -1,4 +1,4 @@
-import digitalleagie.purchaseService.domain.Product;
+package digitalleagie.purchaseService.domain;
 
 public enum AvailableProducts {
     ROSE(new Product("Роза", 150L)),

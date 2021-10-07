@@ -1,3 +1,4 @@
+import digitalleagie.purchaseService.domain.AvailableProducts;
 import digitalleagie.purchaseService.domain.Basket;
 import digitalleagie.purchaseService.domain.Product;
 import digitalleagie.purchaseService.domain.User;
@@ -14,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
