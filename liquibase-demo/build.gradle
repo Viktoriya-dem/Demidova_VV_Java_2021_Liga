@@ -23,6 +23,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-freemarker'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.flywaydb:flyway-core'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'org.hsqldb:hsqldb'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
@@ -31,6 +34,7 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.hibernate:hibernate-validator:6.0.14.Final'
 }
 
 test {
