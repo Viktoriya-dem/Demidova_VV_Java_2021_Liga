@@ -1,25 +1,21 @@
 package com.example.liquibasedemo.controller;
 
 import com.example.liquibasedemo.entity.Post;
-import com.example.liquibasedemo.entity.School;
 import com.example.liquibasedemo.entity.User;
-import com.example.liquibasedemo.service.SchoolService;
 import com.example.liquibasedemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
-    private final SchoolService schoolService;
+
 
     @Autowired
-    public UserController(UserService userService, SchoolService schoolService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.schoolService = schoolService;
     }
 
 
@@ -27,12 +23,12 @@ public class UserController {
     public String findAll() {
         StringBuilder builder = new StringBuilder();
         for (User user : userService.findAll()) {
-            builder.append(user.toString()+"\n");
+            builder.append(user.toString() + "\n");
         }
         return builder.toString();
     }
 
-    @RequestMapping(value = "/show-users/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/show-user/{id}", method = RequestMethod.GET)
     public String finById(@PathVariable("id") Integer id) {
         return userService.findById(id).toString();
     }
@@ -41,30 +37,24 @@ public class UserController {
     public String createUser(@PathVariable("name") String name, @PathVariable("age") int age,
                              @PathVariable("gender") String gender,
                              @PathVariable("school_id") Integer school_id) {
-        School school = schoolService.findById(school_id);
-        User user = new User(name, age, gender, school);
+        User user = userService.createUser(name, age, gender, school_id);
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/user/show-users";
     }
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
     public String deleteUser(@PathVariable("id") Integer id) {
         userService.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/user/show-users";
     }
-    
+
     @RequestMapping(value = "/update/{id}/{name}/{age}/{gender}/{school_id}", method = RequestMethod.POST)
     public String updateUser(@PathVariable("id") Integer id, @PathVariable("name") String name,
                              @PathVariable("age") int age, @PathVariable("gender") String gender,
                              @PathVariable("school_id") Integer school_id) {
-        School school = schoolService.findById(school_id);
-        User user = userService.findById(id);
-        user.setName(name);
-        user.setAge(age);
-        user.setGender(gender);
-        user.setSchool_id(school);
+        User user = userService.updateUser(id, name, age, gender, school_id);
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/user/show-users";
     }
 
     @RequestMapping(value = "/add-friend/{user_id}/{user2_id}", method = RequestMethod.POST)
@@ -75,7 +65,7 @@ public class UserController {
         user2.addFriend(user);
         userService.saveUser(user);
         userService.saveUser(user2);
-        return "redirect:/userFriends";
+        return "redirect:/show-friends/{user_id}";
     }
 
     @RequestMapping(value = "/delete-friend/{user_id}/{user2_id}", method = RequestMethod.POST)
@@ -86,15 +76,16 @@ public class UserController {
         user2.deleteFriend(user);
         userService.saveUser(user);
         userService.saveUser(user2);
-        return "redirect:/userFriends";
+        return "redirect:/show-friends/{user_id}";
     }
 
     @RequestMapping(value = "/show-posts/{id}", method = RequestMethod.GET)
     public String findPosts(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         StringBuilder builder = new StringBuilder();
+        builder.append(String.format("Посты пользователя %s \n", user.getName()));
         for (Post post : user.getPostList()) {
-            builder.append(post.toString() + "\n");
+            builder.append(post.toStringUser() + "\n");
         }
         return builder.toString();
     }
@@ -103,6 +94,7 @@ public class UserController {
     public String findFriends(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         StringBuilder builder = new StringBuilder();
+        builder.append(String.format("Друзья пользователя %s \n", user.getName()));
         for (User user1 : user.getFriends()) {
             builder.append(user1.toString() + "\n");
         }

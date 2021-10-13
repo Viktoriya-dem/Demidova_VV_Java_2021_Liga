@@ -1,6 +1,5 @@
 package com.example.liquibasedemo.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
@@ -66,12 +65,14 @@ public class User {
         this.school_id = null;
     }
 
-    public void addFriend(User user){
-        if (this.getFriends()==null){this.setFriends(new ArrayList<>());}
+    public void addFriend(User user) {
+        if (this.getFriends() == null) {
+            this.setFriends(new ArrayList<>());
+        }
         this.getFriends().add(user);
     }
 
-    public void deleteFriend(User user){
+    public void deleteFriend(User user) {
         if (this.getFriends().contains(user)) {
             this.getFriends().remove(user);
         }
@@ -80,11 +81,18 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", school_title='" + school_id.getTitle() +
+                '}';
+    }
+
+    public String toStringSchool() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender +
                 '}';
     }
 }

@@ -35,9 +35,14 @@ public class Post {
     @Override
     public String toString() {
         return "Post{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
+                "content='" + content + '\'' +
                 ", user=" + user.getName() +
+                '}';
+    }
+
+    public String toStringUser() {
+        return "Post{" +
+                "content='" + content +
                 '}';
     }
 }

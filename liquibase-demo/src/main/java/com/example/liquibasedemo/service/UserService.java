@@ -1,21 +1,23 @@
 package com.example.liquibasedemo.service;
 
+import com.example.liquibasedemo.entity.School;
 import com.example.liquibasedemo.entity.User;
 import com.example.liquibasedemo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SchoolService schoolService;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, SchoolService schoolService) {
         this.userRepository = userRepository;
+        this.schoolService = schoolService;
     }
 
     public User findById(int id) {
@@ -34,4 +36,19 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public User updateUser(Integer id, String name, int age, String gender, Integer school_id) {
+        School school = schoolService.findById(school_id);
+        User user = findById(id);
+        user.setName(name);
+        user.setAge(age);
+        user.setGender(gender);
+        user.setSchool_id(school);
+        return user;
+    }
+
+    public User createUser(String name, int age, String gender, Integer school_id) {
+        School school = schoolService.findById(school_id);
+        User user = new User(name, age, gender, school);
+        return user;
+    }
 }

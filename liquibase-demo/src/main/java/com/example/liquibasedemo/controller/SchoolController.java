@@ -58,8 +58,9 @@ public class SchoolController {
     public String findStudents(@PathVariable("id") Integer id) {
         School school = schoolService.findById(id);
         StringBuilder builder = new StringBuilder();
+        builder.append(String.format("Студенты школы %s \n", school.getTitle()));
         for (User user : school.getUserList()) {
-            builder.append(user.toString() + "\n");
+            builder.append(user.toStringSchool() + "\n");
         }
         return builder.toString();
     }

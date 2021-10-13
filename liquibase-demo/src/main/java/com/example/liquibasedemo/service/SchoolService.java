@@ -1,7 +1,6 @@
 package com.example.liquibasedemo.service;
 
 import com.example.liquibasedemo.entity.School;
-import com.example.liquibasedemo.entity.User;
 import com.example.liquibasedemo.repository.SchoolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ public class SchoolService {
 
     private final SchoolRepository schoolRepository;
 
-@Autowired
+    @Autowired
     public SchoolService(SchoolRepository schoolRepository) {
         this.schoolRepository = schoolRepository;
     }
