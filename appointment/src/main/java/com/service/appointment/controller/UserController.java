@@ -2,7 +2,6 @@ package com.service.appointment.controller;
 
 import com.service.appointment.dto.ApiUserDto;
 import com.service.appointment.entity.ApiUser;
-import com.service.appointment.payload.RegistrationRequest;
 import com.service.appointment.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
