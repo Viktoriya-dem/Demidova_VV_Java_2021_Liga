@@ -43,7 +43,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/user/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/login", "/api/register", "/api/register1").permitAll();
+                .antMatchers("/api/login", "/api/register").permitAll();
                 //.anyRequest().authenticated()
 
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
