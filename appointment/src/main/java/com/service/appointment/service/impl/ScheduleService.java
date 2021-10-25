@@ -25,7 +25,7 @@ public class ScheduleService {
         Date date = new Date();
         List<Reserve> reserveList = reserveService.getAllReservesForDelete();
         for (Reserve reserve : reserveList) {
-            if (reserve.getDate().before(date)) {
+            if (reserve.getDate().before(date) && reserve.isActive()) {
                 System.out.println(String.format("Reserve on date %s for user %s deleted", reserve.getDate().toString(), reserve.getApiUser().getUsername()));
                 reserveService.deleteReserve(reserve.getId());
 
