@@ -2,7 +2,6 @@ package com.service.appointment.service.impl;
 
 import com.service.appointment.dto.ApiUserDto;
 import com.service.appointment.entity.ApiUser;
-import com.service.appointment.entity.Reserve;
 import com.service.appointment.entity.Role;
 import com.service.appointment.exception.UserNotFoundException;
 import com.service.appointment.repo.ApiUserRepo;
@@ -17,8 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
 
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void saveUser(ApiUserDto apiUserDto) {
         ApiUser apiUser = modelMapper.map(apiUserDto, ApiUser.class);
         apiUser.setPassword(passwordEncoder.encode(apiUser.getPassword()));
-        Role role=roleRepo.findById(2);
+        Role role = roleRepo.findById(2);
         apiUser.setRole(role);
         apiUserRepo.save(apiUser);
     }
@@ -72,24 +72,27 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public ApiUserDto getUser(String username) {
         ApiUser apiUser = apiUserRepo.findByUsername(username);
-        if (apiUser==null) throw new UserNotFoundException();
+        if (apiUser == null) throw new UserNotFoundException();
         ApiUserDto apiUserDto = modelMapper.map(apiUser, ApiUserDto.class);
         return apiUserDto;
+
     }
 
+    @Transactional
     @Override
     public void deleteUser(int id) {
-    apiUserRepo.findById(id).orElseThrow(UserNotFoundException::new);
+        apiUserRepo.findById(id).orElseThrow(UserNotFoundException::new);
         apiUserRepo.deleteById(id);
     }
 
+    @Transactional
     @Override
     public void saveRole(Role role) {
         roleRepo.save(role);
     }
 
     @Override
-    public Role findById(int id){
+    public Role findById(int id) {
         return roleRepo.findById(id);
     }
 
@@ -117,7 +120,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(apiUser.getRole().getName()));
 
-        System.out.println(apiUser.getRole().getName()+ "loadByUserName userserviceImpl");
+        System.out.println(apiUser.getRole().getName() + "loadByUserName userserviceImpl");
 
         return new org.springframework.security.core.userdetails.User(
                 apiUser.getUsername(), apiUser.getPassword(), authorities

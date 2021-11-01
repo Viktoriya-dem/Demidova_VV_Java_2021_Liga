@@ -10,11 +10,10 @@ import java.util.List;
 public interface ReserveService {
 
     List<ReserveDto> getAllReserves();
-    List<Reserve> getAllReservesForDelete();
     void saveReserve(ReserveDto reserveDto);
     ReserveDto getReserveDto(int id);
     void deleteReserve(int id);
-    void makeReserve(ReserveDto reserveDto);
+    void makeReserve(String username, ReserveDto reserveDto);
     List<ReserveDtoForUser> getActiveReserves(String username);
     void makeReserveFinished(int id);
     ReserveDto getClosestReserve();

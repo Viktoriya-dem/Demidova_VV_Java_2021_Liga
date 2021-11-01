@@ -3,9 +3,7 @@ package com.service.appointment.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.OptBoolean;
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -13,7 +11,10 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.TimeZone;
 
-@Data
+@Setter
+@Getter
+//@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class ReserveDto {
 
@@ -32,6 +33,11 @@ public class ReserveDto {
 
     private ReserveDto(int userId, Date date) {
         this.userId = userId;
+        this.date = date;
+        this.isActive = true;
+    }
+
+    private ReserveDto(Date date) {
         this.date = date;
         this.isActive = true;
     }

@@ -1,37 +1,30 @@
 package com.service.appointment.service.impl;
 
 import com.service.appointment.entity.Reserve;
-import com.service.appointment.service.interfaces.ReserveService;
-import lombok.RequiredArgsConstructor;
-import org.flywaydb.core.internal.database.DatabaseExecutionStrategy;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import com.service.appointment.repo.ReserveRepo;
 
-import javax.transaction.Transactional;
-import java.util.Date;
+import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
-@Component
+
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private final ReserveService reserveService;
+    private final ReserveRepo reserveRepo;
 
     @Scheduled(cron = "0 15/60 9-21 ? * *")
+    @Transactional
     public void deleteOldReserves() {
-        Date date = new Date();
-        List<Reserve> reserveList = reserveService.getAllReservesForDelete();
-        for (Reserve reserve : reserveList) {
-            if (reserve.getDate().before(date) && reserve.isActive()) {
-                System.out.println(String.format("Reserve on date %s for user %s deleted", reserve.getDate().toString(), reserve.getApiUser().getUsername()));
-                reserveService.deleteReserve(reserve.getId());
-
-            }
-        }
-
+       if (!reserveRepo.getActivePassedReserves().isEmpty()){
+           for (Reserve r:reserveRepo.getActivePassedReserves()) {
+               System.out.println(String.format("Reserve %s was deleted", r.getDate()));
+           }
+           reserveRepo.deleteAll(reserveRepo.getActivePassedReserves());
+       }
     }
-
 }

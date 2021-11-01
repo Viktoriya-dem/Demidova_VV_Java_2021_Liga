@@ -3,17 +3,17 @@ package com.service.appointment.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.OptBoolean;
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "reserves")
-@Data
+@Setter
+@Getter
+//@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class Reserve {
     @Id

@@ -8,8 +8,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Data
 @Setter
+@Getter
+//@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class ApiUser {
 

@@ -6,6 +6,7 @@ import com.service.appointment.service.interfaces.ReserveService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,13 +28,13 @@ private final ReserveService reserveService;
     }
 
     @PostMapping("/user/reserve/make")
-    public void makeReserve(@RequestBody ReserveDto reserveDto){
-        reserveService.makeReserve(reserveDto);
+    public void makeReserve(Principal principal, @RequestBody ReserveDto reserveDto){
+        reserveService.makeReserve(principal.getName(), reserveDto);
     }
 
-    @GetMapping("/user/reserve/get/active/{username}")
-    public List<ReserveDtoForUser> getActiveReserves(@PathVariable String username){
-        return reserveService.getActiveReserves(username);
+    @GetMapping("/user/reserve/get/active")
+    public List<ReserveDtoForUser> getActiveReserves(Principal principal){
+        return reserveService.getActiveReserves(principal.getName());
     }
 
     @PutMapping("/admin/reserve/make/finished/{id}")

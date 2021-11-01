@@ -3,8 +3,8 @@ package com.service.appointment.securyty.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,21 +21,22 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
-@NoArgsConstructor
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+@Slf4j
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    @Value("${secret}")
+    private final String secret;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, String secret) {
         this.authenticationManager=authenticationManager;
+        this.secret = secret;
     }
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -50,7 +51,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
-        Algorithm algorithm=Algorithm.HMAC256("liga2021".getBytes());
+        Algorithm algorithm=Algorithm.HMAC256(secret.getBytes());
         String accessToken = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(Date.from(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant()))
@@ -59,9 +60,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                         .collect(Collectors.toList()))
                 .sign(algorithm);
 
-        response.setHeader("accessToken", accessToken);
-
-        chain.doFilter(request, response);
+        response.setHeader(AUTHORIZATION, accessToken);
     }
 
 }

@@ -1,13 +1,14 @@
 package com.service.appointment.dto;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
 
-@Data
+@Setter
+@Getter
+//@NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class RoleDto {
 
