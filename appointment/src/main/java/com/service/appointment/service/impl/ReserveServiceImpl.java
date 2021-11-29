@@ -2,6 +2,7 @@ package com.service.appointment.service.impl;
 
 import com.service.appointment.dto.ReserveDto;
 import com.service.appointment.dto.ReserveDtoForUser;
+import com.service.appointment.dto.ReserveDtoOnDate;
 import com.service.appointment.entity.ApiUser;
 import com.service.appointment.entity.Reserve;
 import com.service.appointment.exception.*;
@@ -13,11 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -83,9 +80,9 @@ public class ReserveServiceImpl implements ReserveService {
                 throw new BusyReserveTimeException();
             }
         }
-        if (reserve.getDate().getMinutes() == 0 && reserve.getDate().getHours() > 9
+        if (reserve.getDate().getMinutes() == 0 && reserve.getDate().getHours() > 8
                 && reserve.getDate().getHours() < 21 && isFree
-             && reserve.getDate().after(date)) {
+                && reserve.getDate().after(date)) {
             reserveRepo.save(reserve);
         } else throw new IncorrectReserveTimeException();
         //else Exception
@@ -114,24 +111,29 @@ public class ReserveServiceImpl implements ReserveService {
 
     @Override
     public ReserveDto getClosestReserve() {
-        List<Reserve> reserves = reserveRepo.findAll();
-        if (reserves.size() == 0) throw new NoReserveException();
-        List<Reserve> reserveActive = new ArrayList<>();
-        for (Reserve reserve : reserves) {
-            if (reserve.isActive()) {
-                reserveActive.add(reserve);
+        Reserve reserve = reserveRepo.getClosestReserve();
+        if (reserve == null) {
+            throw new NoReserveException();
+        } else return modelMapper.map(reserve, ReserveDto.class);
+    }
+
+    @Override
+    public Map<Integer, String> getActiveReservesOnCurrentDate(ReserveDtoOnDate reserveDtoOnDate) {
+        Map<Integer, String> map = new TreeMap<>();
+        Date date = reserveDtoOnDate.getDate();
+        for (int i = 9; i < 21; i++) {
+            map.put(i, "Свободно");
+        }
+        List<Reserve> list = reserveRepo.getActiveReservesOnCurrentDate(date);
+        if (list.size() == 0) {
+            return map;
+        }
+        for (int j = 0; j < list.size(); j++) {
+            if (map.containsKey(list.get(j).getDate().getHours())) {
+                map.put(list.get(j).getDate().getHours(), "Занято");
             }
         }
-        Date date = new Date();
-        Reserve lastReserve = reserveActive.get(0);
-        Long diff = lastReserve.getDate().getTime() - date.getTime();
-        for (Reserve reserve : reserveActive) {
-            if ((reserve.getDate().getTime() - date.getTime()) < diff) {
-                lastReserve = reserve;
-            }
-        }
-        ReserveDto reserveDto = modelMapper.map(lastReserve, ReserveDto.class);
-        reserveDto.setUserId(lastReserve.getApiUser().getId());
-        return reserveDto;
+
+        return map;
     }
 }

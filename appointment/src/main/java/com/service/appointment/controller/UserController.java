@@ -14,7 +14,7 @@ public class UserController {
 
     private final UserServiceImpl apiUserService;
 
-    @DeleteMapping("/admin/delete/user/{id}")
+    @DeleteMapping("/admin/{id}")
     public void deleteUser(@PathVariable int id) {
     ApiUserDto apiUserDto=apiUserService.getUserById(id);
     apiUserService.deleteUser(id);

@@ -17,7 +17,7 @@ public class ScheduleService {
 
     private final ReserveRepo reserveRepo;
 
-    @Scheduled(cron = "0 15/60 9-21 ? * *")
+    @Scheduled(cron = "${cron}")
     @Transactional
     public void deleteOldReserves() {
        if (!reserveRepo.getActivePassedReserves().isEmpty()){
