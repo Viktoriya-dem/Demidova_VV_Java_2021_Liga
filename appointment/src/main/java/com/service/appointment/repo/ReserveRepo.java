@@ -14,8 +14,8 @@ import java.util.List;
 public interface ReserveRepo extends JpaRepository<Reserve, Integer> {
 
 
-    @Query(value = "Select r from Reserve r where (r.date>current_date) and(r.isActive= true)")
-    List<Reserve> getActivePassedReserves();
+    @Query(value = "Select r from Reserve r where r.date<=(:date) and(r.isActive=true)")
+    List<Reserve> getActivePassedReserves(@Param("date") Date date);
 
 
     @Query(value = "Select r from Reserve r where date(r.date)=date(:date) and r.isActive=true")

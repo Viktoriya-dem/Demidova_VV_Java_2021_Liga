@@ -8,7 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 
 @Service
@@ -20,11 +21,15 @@ public class ScheduleService {
     @Scheduled(cron = "${cron}")
     @Transactional
     public void deleteOldReserves() {
-       if (!reserveRepo.getActivePassedReserves().isEmpty()){
-           for (Reserve r:reserveRepo.getActivePassedReserves()) {
-               System.out.println(String.format("Reserve %s was deleted", r.getDate()));
-           }
-           reserveRepo.deleteAll(reserveRepo.getActivePassedReserves());
-       }
+        Date date = new Date();
+        date.setHours(date.getHours() + 3);
+        if (!reserveRepo.getActivePassedReserves(date).isEmpty()) {
+            for (Reserve r : reserveRepo.getActivePassedReserves(date)) {
+                if (r.getDate().getTime() - date.getTime() < 0) {
+                    System.out.println(String.format("Reserve %s was deleted", r.getDate()));
+                    reserveRepo.delete(r);
+                }
+            }
+        }
     }
 }
