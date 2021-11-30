@@ -27,4 +27,6 @@ public class AppointmentApplication {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }
