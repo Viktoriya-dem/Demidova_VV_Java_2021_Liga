@@ -1,7 +1,7 @@
 package com.service.appointment.config;
 
-import com.service.appointment.securyty.filter.CustomAuthenticationFilter;
-import com.service.appointment.securyty.filter.CustomAuthorizationFilter;
+import com.service.appointment.security.filter.CustomAuthenticationFilter;
+import com.service.appointment.security.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

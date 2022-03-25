@@ -1,4 +1,4 @@
-package com.service.appointment.securyty.filter;
+package com.service.appointment.security.filter;
 
 
 import com.auth0.jwt.JWT;

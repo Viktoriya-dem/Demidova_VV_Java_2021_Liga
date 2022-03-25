@@ -1,4 +1,4 @@
-package com.service.appointment.securyty.model;
+package com.service.appointment.security.model;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
