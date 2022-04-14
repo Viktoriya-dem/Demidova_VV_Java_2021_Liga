@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  dbsecur:
+    container_name: postgreSQL_container_appointment
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgresadmin
+      POSTGRES_PASSWORD: liga2021exam
+      COMPOSE_PROJECT_NAME:
+    volumes:
+      - ./:/basedir
+    ports:
+      - "5432:5432"
